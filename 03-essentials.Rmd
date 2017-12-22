@@ -1,0 +1,525 @@
+# R Essentials {#essentials}
+
+```{r include=FALSE}
+knitr::opts_chunk$set(cache=F, warning=FALSE, message=FALSE)
+library(arm)
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(gridExtra)
+library(grid)
+
+
+```
+
+This chapter offers a brief---and very basic---introduction to R. This material is covered more thoroughly elsewhere.  See, for example:
+
+- [DataCamp: Introduction to R](https://www.datacamp.com/courses/free-introduction-to-r)
+
+- [DataCamp: Intermediate R](https://www.datacamp.com/courses/intermediate-r)
+
+- [DataCamp: Importing Data in R](https://www.datacamp.com/courses/importing-data-in-r-part-1)
+
+<!-- - [UCLA: How to input your data into R](http://stats.idre.ucla.edu/r/faq/how-to-input-data-into-r/) -->
+
+<!-- - [Open intro stats: lab 0 and lab 1](https://www.datacamp.com/community/open-courses/statistical-inference-and-data-analysis#gs.fI1vCHM) -->
+
+<!-- - [DataCamp:  Data visualization in base R](https://www.datacamp.com/courses/data-visualization-in-r) -->
+
+## Introduction to  R
+
+As noted earlier, R is an object-oriented programming language.  
+
+Use the assignment operator, "<-", to assign a value to an object.  (The equals sign, "=", works for assignment also.)  However, commands can be run directly without storing results in an object.  For example, type `5 + 5` in the console.^[To follow this tutorial, type (or copy and paste) the code examples into your RStudio console and press return.  You may, alternatively, open an R script (a .R document) by clicking on the `File` menu option.  Select `New File` > `R script`.  Type (or copy and paste) the code examples into your practice script, then highlight them and press `control-return` to run them.] The most basic use of R is as a calculator. 
+
+```{r}
+5 + 5
+```
+
+Let's assign the results of that calculation to an object, `x`:  
+
+```{r}
+(x <- 5 + 5) # An example of assignment
+
+```
+
+Here we have assigned the resulting sum, 10, to the object `x`. (We could have called this object anything, as long as the name consisted in a character string.)  Notice that `x`, along with the value assigned to it, now shows up under Values in the environment tab of the Environment pane.  The parentheses tell R not just to do the calculation, and store it in `x`, but also to print the result to the console. 
+
+The above code snippet also demonstrates how to add comments to a script using "#." R will ignore any text following a hashtag.  Comments are a good way to communicate details about your code to collaborators, or your future self, when coming back to a script after a break.  As code gets more complicated, and analyses more involved, comments become more important.
+
+Once we have assigned a value to `x`, we can use it to perform further operations, the results of which can then also be stored in an object.  For example:
+
+```{r}
+new_object <- x + x
+new_object
+```
+
+The power of object-oriented programming consists in this ability to store values in objects for additional manipulation and computation.
+
+## Getting data into R
+
+
+Getting data into R can sometimes be a challenge!  The easiest option is to acquire a dataset that is included in base R, such as `mtcars`, using the `data()` function:^[`mtcars` contains information on the design and performance characteristics of older  model cars (1973-4).]
+
+```{r}
+data(mtcars)
+
+head(mtcars)
+```
+
+The `head()` function displays the top 6 rows (the default) of a table for quick inspection.  You can adjust the number of rows shown by including a value for the `n` argument to the `head()` function, like this:  `head(mtcars, n = 10)`.  `head()` will then display 10 rows.^[If you need information about an R function, you may type "?" in the console followed by the function: for example, `?head`.  In RStudio this will automatically bring up the documentation for that function under the "Help" tab of the plot pane.  The documentation contains comprehensive information about the arguments to the function, details on usage, the values returned, along with examples.  In the case of `head()` there are two non-optional arguments:  `x` (data) and `n` (size), which has a default value of 6.  If an argument has a default setting, and you leave it blank, R will use automatically use that default. R functions recognize arguments either by name or position.  Thus, because the `head()` expects first a data argument then a size argument, these two uses of `head()` are identical:  `head(mtcars, n = 10)` and `head(mtcars, 10)`.]
+
+You can also import data from your working drive using the `read.csv()` function, or, perhaps easier, use RStudio's "import dataset" button located under the environment tab of the environment pane to browse for data on your computer.  There are, in addition, other functions to import a great variety of data types, such as `read.xlsx()`, for MS Excel files, and `read.table()` for text files.  The `foreign` package has functionality to import other, more exotic file types.
+
+You can also import data directly from the web.  Here, for example, is code to retrieve the "abalone" dataset from UC Irvine's machine learning data repository.  We will assign this dataset to an object, which, for brevity, we'll denote "a":
+
+```{r}
+a <- read.csv("http://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.data", header = F)
+
+head(a) # Note: no column headers
+
+```
+
+Here is info on the "abalone" dataset, which includes the variable names: [abalone](http://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.names). Based on this information we can assign names to the columns in this table:
+
+```{r}
+names(a) <- c("Sex", "Length"	,"Diameter", "Height"	,"Whole_weight",
+              "Shucked_weight", "Viscera_weight", "Shell_weight","Rings")
+```
+
+The `c()` function (the "c" stands for "concatenate") puts items together into a vector.  `names(a)` is a character vector containing the column names of a table.  Here we are assigning to `names(a)` a new vector of character variables, thereby renaming the columns.  (Note that the command `colnames(a)` is identical to `names(a)`.)
+
+Let's check to make sure that the renaming operation has worked:
+
+```{r}
+names(a)
+
+```
+
+## R Data types
+
+These are the main data types in R:  
+
+- numeric (or integer)
+- character
+- factor
+- logical
+
+We can check to see which data types we have in `a` by using the `str()` command ("str" stands for "structure"). `str()` returns the dimensions of dataset, the underlying data types, and the first 10 observations of each variable.
+
+```{r}
+str(a)
+```
+
+
+
+We can see that the `a` dataset has `r nrow(a)` rows, `r ncol(a)` columns, and that all the variables are numeric or integer except for `Sex` which is a factor variable.  Factors are character variables that have an assigned order. If we had wanted `Sex` to be imported as a character variable, we could have added an additional argument to the `read.csv()` function after `header = F`: `stringsAsFactors = F`. 
+
+R's default action is to encode the levels of a factor based on alphabetic order.  Thus, in the above output from `str(a)` we can see that the 3 levels of `Sex` are alphabetic:  "F","I", and "M" (standing for "female," "indeterminate," and "male," in that order).  Factors are extremely important in R, especially when we get to regression modeling, where the order of the factor levels determines which comparisons the `lm()` function will automatically report. 
+
+Note that the examples of `Sex` in the above call to `str()` are not "F," "I" or "M" but rather 1, 2 or 3.  This is because R stores factor variables in the background as numeric, in order to capture the order of the levels.
+
+We can query and change the order of the factor levels as follows:
+
+```{r}
+levels(a$Sex)
+a$Sex <- factor(a$Sex, levels = c("M", "I", "F"))
+levels(a$Sex)
+```
+
+There is also a logical data type in R, consisting of `TRUE` or `FALSE`, which can be abbreviated `T` or `F`.  
+
+```{r}
+logical_vector <- c(T, F, F, T, T)
+str(logical_vector)
+sum(logical_vector) # The sum() function counts the Ts!
+```
+
+It is often convenient to define a logical condition for a vector of values, transforming them into logical values, `T` or `F`.  We define a logical vector using logical operators such as:
+
+- "==" (equal)
+- "!=" (not equal)
+- "<" (less than) 
+- "<=" (less than or equal to) 
+- ">" (greater than) 
+- ">=" (greater than or equal to) 
+- is.na() 
+- !is.na()
+- "|" (pipe operator, or)
+- "&" (and)
+- isTRUE()
+- !isTRUE()
+
+Below we define a logical vector for `a$Ring` based on whether the number of rings is greater than 10.  We'll call this object `many_rings`, and check to make sure that it looks right using the `head()` command.  
+
+```{r}
+many_rings  <- a$Rings > 10
+head(many_rings)
+```
+
+We can then use `sum()` on `many_rings` to find out how many abalone in the dataset have more than 10 rings.  This works because R counts the logical values TRUE and FALSE as 1 and 0, respectively. 
+
+```{r}
+sum(many_rings)
+```
+
+Using `sum()` and `length()` on our defined vector we can also calculate the *proportion* of `a$Rings` greater than 10.  (The `length()` function returns the length of  vector, or number of items, and is not to be confused with the `nrow()` function which counts the number of *rows* in a table.)
+
+```{r}
+sum(many_rings)/length(many_rings) 
+```
+
+Note that `mean()` returns exactly the same value. 
+
+```{r}
+mean(many_rings)
+```
+
+So, `r sum(many_rings)/length(many_rings)*100`% of the abalone in this dataset have more than 10 rings.   If we wanted less precision than  than R's default 7 decimal places (which will usually be the case when reporting results) then we could use the `round()` function, the second argument of which is the number of desired decimal places: 
+```{r}
+round(mean(many_rings),2)
+```
+Note that you *never* want to round values that will be used in subsequent operations!  In that case, rounding error would compound through all of your calculations.
+
+## Working with R Data Structures
+
+The following are the main data structures in R:  
+
+- Vector
+- Dataframe
+- Matrix
+- List
+- Array
+
+I discuss vectors and dataframes in some detail below, and will introduce other data structures elsewhere as necessary.
+
+### Dataframes and vectors
+
+The workhorse data structure in R is the **dataframe**, which is essentially analogous to a spreadsheet, with rows and columns.  In a dataframe the columns are necessarily **vectors.** 
+
+As noted above, vectors are *unidimensional* collections of items, with the following caveat:  the items in a vector must always be of the same type---logical, numeric, character, etc.  A  dataframe, by  contrast, is a *multidimensional* structure that will accommodate vectors of different data types as columns. 
+
+The `str()` function is, as we've seen, a handy way to query either vectors or dataframes to get information about their size or dimension as well as the constituent data types.  Here are other commands useful for working with dataframes:
+
+- `head()` returns the first six rows by default.  (Specify a value for the `n` argument to adjust the default:  `head(a, n = 20)` will return 20 rows.) 
+- `dim()`  queries the dimension of a dataframe and returns a vector with the number of observations and number of variables.
+
+```{r}
+dim(a) 
+```
+
+- `nrow()` returns the number of rows.
+
+```{r}
+nrow(a)
+```
+
+- `ncol()` returns the number of columns.
+
+```{r}
+ncol(a)
+```
+
+### Indexing and subsetting 
+
+A essential skill in working with data frames and vectors is indexing and subsetting. Here are some base R methods.
+
+**Square bracket notation** allows you to index a position in a vector or data frame and return  the observations at that position.  If you are working with a vector, then use a single number, or set of numbers, in square brackets, to denote the vector position(s) for which you want observations.  If you are working with a data frame then you need to specify in square brackets a row position and a column position, separated by a comma, to denote the row-column indexes for which you want observations.
+
+```{r}
+# Index a vector
+logical_vector[1:2]
+
+# Index a dataframe
+a[1:2, 1] # Returns the first two rows in the first column
+
+a[c(1,2), 1] # Same result
+```
+
+**Dollar sign notation ("$")** picks out a column vector from a dataframe, which can then be indexed with square brackets.
+
+```{r}
+
+a$Sex[1:2] 
+
+```
+
+**subset()** in base R allows you to filter a dataframe according to logical criteria.
+
+```{r}
+head(subset(a, Sex == "I" & Diameter > .3))
+```
+
+Here we have used `head()` to select just the first six rows of  of a new dataset consisting of rows where `Sex` equals "I" and `Diameter`  is greater than .3.  We can  perform this same operation with square brackets:
+
+```{r}
+a[a$Sex == "I" & a$Diameter > .3, ][1:6, ]
+```
+
+
+## Basic programming in R
+
+### Functions
+
+When we use `+` or `log()` or `^2` we are using functions that have been programmed into base R.  One of the great things about R is the ease with which we can write our own functions to simplify repeated custom calculations or operations. Here is an example for how to write a function that returns the cube of a number.  The function will take one argument, x, as follows:
+
+```{r}
+
+cube <- function(x){
+  x * x * x
+}
+
+cube # Returns the function definition
+
+cube(2) # Returns the value of the function evaluated at x = 2 
+
+cube(3) # Returns the value of the function evaluated at x = 3 
+
+
+```
+
+### Control structures: loops
+
+Another way of handling repeated operations is to use a loop.  There are different types of loops; here we introduce one of the simplest, the for loop, which repeats an operation for a specified number of times. The for loop includes two arguments:  the counter (often denoted "i" for iteration) and the length of the loop, or number of iterations.  To use a for loop we first initialize a vector to store the values produced at each iteration. Here we calculate cubes for the numbers 1 - 10 using the `cube()` function  we just created. The counter, i, will advance by 1 with each loop.  
+
+```{r}
+results <- numeric(10)
+for(i in 1:10){
+  results[i] <- cube(i)
+}
+
+results
+
+```
+
+We have used the counter for each loop, i, to index our results vector, `results[i]`, using it to store the value produced by `cube(i)`.  For loop i = 1, the calculation produced by `cube(1)` is stored in `results[1]`; likewise, for loop i = 2, we  store the value produced by `cube(2)` in `results[2]`, and so forth.  Of course, we could also have performed this same operation in a vectorized fashion:
+
+```{r}
+cube(1:10)
+```
+
+The advantage of the second implementation is not only simplicity but also speed:  loops are generally pretty slow ways of doing things in R.  Nevertheless, loops are easy to understand and will be especially useful control structures when we get to bootstrapping.
+
+### Control structures: if-else
+
+Some operations that could be handled by loops have been vectorized in R for speed and convenience.  Examples include `if()` and `ifelse()`, which are are extremely helpful functions for performing a repeated operation on a vector, such as recoding a variable.  Suppose we would like to create a binary variable that splits `a$Length` at the mean, coding all values above the mean as 1 and all values below or equal to the mean as 0.  We'll call the new variable `Length_bin`:
+
+```{r}
+
+a$Length_bin <- ifelse(a$Length > mean(a$Length), 1, 0)
+```
+
+
+The first argument to `ifelse()` is the condition, the second is the stipulated value when the condition = T, and the third is the stipulated value when the condition = F.  Thus, the above code says:  when `a$Length` is greater than  `mean(a$Length)` then make `a$Length_bin` 1 for that observation; but if  `a$Length` is *not* greater than  `mean(a$Length)` then make `a$Length_bin` 0.  The result is a vector of 0s and 1s.  Compare `a$Length_bin` with the original:
+
+```{r}
+
+a$Length_bin[1:10]
+a$Length[1:10]
+
+```
+
+
+## Summarizing data
+
+### summary()
+
+Base R contains many useful functions for summarizing data.  The `summary()` function will automatically summarize the distributions of numeric variables in a dataframe, and will return tables of character or factor variables (along with NAs, where applicable).
+
+```{r}
+summary(a)
+```
+
+### table()
+
+The `table()` function can be used directly to get information about the distribution of `a$Sex`, while `prop.table()` returns proportions:
+
+```{r}
+table(a$Sex)
+round(prop.table(table(a$Sex)), 2)
+```
+
+### Barplots
+
+The `barplot()` command in base R works with `table()` to visualize counts, or with `prop.table()` to visualize proportions:
+
+```{r}
+barplot(table(a$Sex), main = "Counts  by Sex")
+
+barplot(prop.table(table(a$Sex)), main = "Proportions by Sex")
+```
+
+### Histograms
+Bar plots summarize discrete variables (character of factor); histograms summarize numeric distributions. 
+
+
+`hist()` chooses a default bin size, counts the observations in that bin, and produces a plot with bars whose heights correspond to the frequency.  Histograms are great for visualizing the range and shape of a distribution. 
+
+```{r}
+hist(a$Length)
+```
+
+ We can see that  most abalone, roughly the middle 50% of the distribution, have lengths between about .4 and .7.  We can compute quartiles to get this information exactly, either using `summary(a)` as above, or `quantile(a$Length)`.  The default behavior of `quantile()` is to return quartiles:
+
+```{r}
+quantile(a$Length)
+
+```
+
+Remember that quantiles are just percentiles.  If we arranged each observation of `a$Length` from smallest to largest, then 0% would be the minimum and 100% would be the maximum; the first quartile, between .075 and .45, would contain the first 25% of all the observations, while the second quartile would contain the second 25% of all the observations, from .45  to the median, .545; the middle 50% of the distribution would extend from the first quartile, .45, to the third quartile, .615.  The middle 50% of the observations can be used to characterize the central tendency of the distribution.
+
+We can adjust the `probs` argument in the `quantile()` function to return other percentiles.  Here, for example, is how we would get quintiles:
+
+```{r}
+quantile(a$Length, probs = c(0, .2, .4, .6, .8, 1))
+```
+
+Let's include this distributional information on the histogram plot to precisely demarcate the middle 50% of the observations:
+
+```{r}
+hist(a$Length)
+abline(v = quantile(a$Length, probs = .25), col="red")
+abline(v = quantile(a$Length, probs = .75), col="red")
+```
+
+We can decrease the size of the bins using the `breaks` argument to get finer resolution on this distribution of `a$Length`:
+```{r}
+hist(a$Length, breaks = 100)
+abline(v = quantile(a$Length, probs = .25), col="red")
+abline(v = quantile(a$Length, probs = .75), col="red")
+```
+
+If we want to see what the `hist()` function is doing in the background we can query it using the "?" command: `?hist`. The documentation for histogram indicates that `hist()` creates an object, consisting in a list, that is used by the function to create the plot.  Use `str()` to look at the components of the list.
+
+```{r}
+str(hist(a$Length, plot = F))
+
+```
+
+To subset a list we use double square brackets. In this case, `hist(a$Length, plot=F)[[1]]` returns the first list item, `breaks`, which indicates the interval defining each bin.  
+```{r}
+hist(a$Length, plot=F)[[1]]
+```
+
+Single square brackets pick out elements from within list items. Thus,  `hist(a$Length, plot=F)[[1]][1:2]` returns the first two elements of the first list item:
+
+```{r}
+hist(a$Length, plot=F)[[1]][1:2]
+```
+
+From the documentation for `hist()` we learn:  "If right = TRUE (default), the histogram cells are intervals of the form (a, b], i.e., they include their right-hand endpoint, but not their left one, with the exception of the first cell when include.lowest is TRUE."  `include.lowest = T` is the default.  Thus, the first bin contains all `a$Length` observations greater than or equal to `r hist(a$Length, plot=F)[[1]][1]` and less than or equal to `r hist(a$Length, plot=F)[[1]][2]`.
+
+### Density plots
+
+`a$Length` is a continuous variable, so we should really use a density plot.
+
+```{r}
+plot(density(a$Length))
+```
+
+Density plots are basically smoothed histograms, but the density curve does not represent frequencies; instead, the height of the curve represents the probability density function, which can be used to estimate probabilities.  For example, the max of the density plot is approximately 3.5 at around x = .6.  If we take a small interval around .6---say, .59 to .61---then the height multiplied by the density yields the area under the curve in that region, which is equivalent to the probability for observations occurring in that interval: 3.5 x .02 = `r 3.5*.02`. An interval of the same length in a lower frequency region of the distribution will have a much lower associated probability.  For example, the density at x = .4 is about 1.5, so the interval between .39 and .41 would be roughly equivalent to a probability of 1.5 x .02 = `r 1.5*.02`  The area under the density curve is a probability and thus integrates to 1. Read about the details of the algorithm that creates the default density object with`?density`.
+
+### Boxplots
+
+Boxplots are another handy way to summarize, and compare, distributions.
+
+```{r}
+boxplot(a$Length, main="Boxplot of Length", xlab="Length", ylab="Values")
+```
+
+The box in a boxplot represents the interquartile range, or IQR, which contains the observations between the first and third quartiles--- the middle 50% of the observations in a distribution.^[The hinges are actually "versions" of the first and third quartiles.  See the documentation for `boxplot.stats()` for details.]  The box thus represents the central tendency of the distribution, with its height (or width, depending on the orientation of the box) indicating the spread of the data.  The black center line is the median; the edges of the box are known as the "hinges."  The lines extending beyond the hinges are the "whiskers"; they indicate observations that are more extreme than the IQR---less than the first quartile and greater than the third quartile. The whiskers extend 1.5 times the IQR beyond the hinges. If there are no observations that extreme then the whisker extends only as far as the minimum or the maximum. Observations beyond the whiskers---potential outliers---are represented as points.  In the above boxplot we can see that there are a number of points smaller than the lower whisker.
+
+As with `hist()` a call to `boxplot()` creates an object that we can inspect using `str()`:
+
+```{r}
+str(boxplot(a$Length, plot=F))
+
+```
+
+`boxplot(a$Length, plot=F)[[1]]` in this case returns a five number summary of the distribution:  the minimum or the bottom of the lower whisker, the max or the top of the upper whisker, the first and third quartile (the hinges), and the median (the center line).
+
+Boxplots really shine when it comes to comparisons.  Here is a boxplot with Sex on the x-axis and Length on the y.
+
+```{r}
+boxplot(a$Length ~ a$Sex, main="Boxplot of Length by Sex", 
+        xlab="Sex", ylab="Length")
+```
+
+Here we can see that Sex == I accounts for the small lengths that we saw in the first boxplot.  While male and female abalone have similar lengths, indeterminates are consistently smaller; the top hinge for Sex == I is below the lower hinge of the other two boxes.
+
+### More density plots
+
+Overlain density plots tell a similar story:  one of these distributions is not like the other.
+
+```{r}
+plot(density(subset(a, Sex=="M")$Length), xlim = c(0,1), main =
+       "Density plot of Length by Sex: \n I  (green), M (black), F (green)")
+lines(density(subset(a, Sex=="I")$Length), col=2)
+lines(density(subset(a, Sex=="F")$Length), col=3)
+```
+
+This plot really deserves a legend.  Unfortunately, legends are a pain to create in base R---much easier in the ggplot2 package.  To create a legend in base R we have to keep track of  colors.  Black is represented by 1, red by 2 and green by 3.   Here is the same plot with a legend. 
+
+```{r}
+plot(density(subset(a, Sex=="M")$Length), xlim = c(0,1), main =
+       "Density plot of Length by Sex")
+lines(density(subset(a, Sex=="I")$Length), col=2)
+lines(density(subset(a, Sex=="F")$Length), col=3)
+legend("topright",title="Sex", fill=1:3,
+       legend =c("M", "I", "F"))
+
+```
+
+We can also put density plots side by side:
+
+```{r}
+par(mfrow = c(1, 3))
+plot(density(subset(a, Sex == "M")$Length), main = "Length for M")
+plot(density(subset(a, Sex == "I")$Length), col = 2, main = "Length for I")
+plot(density(subset(a, Sex == "F")$Length), col = 3, main = "Length for F")
+par(mfrow = c(1, 1))
+```
+
+We have used the `par(mfrow = c(1, 3))` command to tell R how many plots per row we want. Here we specified 3 columns in 1 row;  `par(mfrow = c(3, 1))` would have arranged 3 rows of plots all in 1 column.  It is good practice afterwards to reset this parameter to the default: `par(mfrow = c(1, 1))`.   
+
+Clearly, it is easier to compare distributions when they are all on the same plot  (or if they were arranged one above the other rather than side-by-side).  Notice also that there are problems here with y-axis scales (they should all have the same scale).  These again are formatting challenges handled automatically in `ggplot2`, so rather than laboring over  these base R plots we will return to these issues in the next chapter when we introduce `ggplot2`.
+
+### Scatterplots
+
+Scatterplots are great for showing bivariate relationships between continuous variables.  (If one of your variables is a factor, then use a boxplot.)  We might expect to find that abalone length and weight are correlated.  Here is a scatterplot of length against weight with an ordinary least squares (OLS) line added to summarize the linear relationship: 
+
+```{r}
+plot(a$Whole_weight~a$Length, 
+     main="Relationship between Abalone Length and Weight")
+abline(lm(a$Whole_weight~a$Length), col="red")
+```
+
+Notice that we have used the `lm()` function---the main R function for fitting linear models---to add the OLS line.  R knows how to extract the intercept and slope from the model object created by `lm()`.  Clearly, however, this is a lousy linear model; the data displays an upward curve that might be better captured with a quadratic term in the model.  
+
+A plot showing a nonlinear fit can certainly be produced in base R graphics but is not entirely straightforward:  this, task, too, we leave for the next chapter with `ggplot2`.  
+One thing we can accomplish fairly easily here is to color the points according to sex.  Given the sex differences we've observed so far, it might well be the case  that they explain this nonlinear relationship.  It is, at any rate, worth a look.  The following plot colors points by sex, which allows us to visualize how a bivariate relationship---the one between length and weight---varies by sex.  Later we will describe this variation across levels of a factor as an *interaction*.  Here length and sex interact to explain weight.
+
+```{r}
+library(scales)
+plot(a$Whole_weight~a$Length, 
+     main="Relationship between Abalone Length and Weight \n varying by Sex", 
+     col = alpha(as.numeric(a$Sex), 0.5), pch=19)
+```
+
+I have added transparency to the points (making the points behind somewhat visible) so we can better see which regions of the distribution are dominated by the different groups.  
+
+One  possibility for what is going on here---that could be explored further---is that the indeterminate abalone are smaller than males and females, in terms of both length and weight, and that what looks like a nonlinear relationship between length and weight is actually just a linear relationship that varies by group.  Plotting these separate fits to investigate this idea is, again, sort of a pain in base R. 
+
+
+We will revisit this topic---displaying linear fits to subsets of the data in the same plot---in the next chapter using `ggplot2`.
+
+### Scatterplot matrix
+
+R has many functions for producing multi-panel plots that display bivariate relationships among all the variables in a data set.  Here is one implementation.
+
+```{r}
+pairs(a[,-1])
+```
+
+
+
