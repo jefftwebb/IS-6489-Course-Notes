@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Course Notes for IS 6489, Statistics and Predictive Analytics</title>
+  <meta name="description" content="Course notes for IS 6489.">
+  <meta name="generator" content="bookdown 0.3.17 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Course Notes for IS 6489, Statistics and Predictive Analytics" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Course notes for IS 6489." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Course Notes for IS 6489, Statistics and Predictive Analytics" />
+  
+  <meta name="twitter:description" content="Course notes for IS 6489." />
+  
+
+<meta name="author" content="Jeff Webb">
+
+
+<meta name="date" content="2017-12-22">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path=""><a href="#introduction"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path=""><a href="#course-topics"><i class="fa fa-check"></i><b>1.1</b> Course topics</a></li>
+<li class="chapter" data-level="1.2" data-path=""><a href="#software"><i class="fa fa-check"></i><b>1.2</b> Software</a></li>
+<li class="chapter" data-level="1.3" data-path=""><a href="#example"><i class="fa fa-check"></i><b>1.3</b> Example</a></li>
+<li class="chapter" data-level="1.4" data-path=""><a href="#questions"><i class="fa fa-check"></i><b>1.4</b> Questions</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Course Notes for IS 6489, <em>Statistics and Predictive Analytics</em></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">Course Notes for IS 6489, <em>Statistics and Predictive Analytics</em></h1>
+<h4 class="author"><em>Jeff Webb</em></h4>
+<h4 class="date"><em>2017-12-22</em></h4>
+</div>
+<div id="introduction" class="section level1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<div id="course-topics" class="section level2">
+<h2><span class="header-section-number">1.1</span> Course topics</h2>
+<p>These are the course notes for IS 6489, <em>Statistics and Predictive Analytics</em>, offered through the Information Systems (IS) department in the University of Utah’s David Eccles School of Business.</p>
+<p>This is an exciting time for data analysis! The field has undergone a revolution in the last 15 years with increases in computing power and the availability of “big data” from web-based systems of data collection. “Data science” is the umbrella term that describes the result of this revolution—a new discipline at the intersection of many traditional fields such as statistics, computer science, and mathematics (among others). This convergence has resulted in the development of many new approaches to, and methods for, building statistical models to improve decision-making for individuals, companies and institutions. “Predictive analytics” is in the course title because you will learn not only how to build models but also how to use them to make educated guesses about the future. “Statistics” is in the course title because our approach to prediction will be rooted in the traditional, mathematically-based subject of statistics.</p>
+<p>The course focuses on regression as a staple data analytic technique. We will cover both linear and logistic regression, as well as more advanced methods such as regularization.</p>
+<p>Here are the main topics in the course:</p>
+<ul>
+<li>Statistical programming with R</li>
+<li>Exploratory data analysis</li>
+<li>Statistical inference</li>
+<li>Simulation</li>
+<li>Linear regression</li>
+<li>Missing data imputation</li>
+<li>Cross validation</li>
+<li>Regularized regression (ridge regression and Lasso)</li>
+<li>Logistic regression</li>
+<li>Statistical communication</li>
+</ul>
+<p>Along the way we will be comparing linear and logistic regression model performance to that of machine learning algorithms such as K-nearest neighbors, random forest, and gradient boosting.</p>
+<p>With regression we can (among other things):</p>
+<ul>
+<li><p><strong>describe</strong> the relationships between variables in a data sample and assess whether those relationships also exist in the population.</p></li>
+<li><p>create a model to <strong>predict</strong> unknown values of the outcome variable given known predictors.</p></li>
+</ul>
+</div>
+<div id="software" class="section level2">
+<h2><span class="header-section-number">1.2</span> Software</h2>
+<p>The statistical software used in the course is R, an open-source, object-oriented programming language that was invented to do statistics. R is the successor to the earlier S language and resembles Matlab and Python in style and syntax. These notes presuppose familiarity with R programming. If you are new to the language, there are abundant introductory resources for learning R available on the web (some of which are referenced in these notes).</p>
+<p>R is a tremendous tool for doing data analysis; your efforts to master it will be richly rewarded. R is a more general purpose programming language than Matlab but less general purpose than Python. I have heard purists complain about some of the conventions in R (probably with good reason). But, R is great.</p>
+<ul>
+<li>It is widely used, so examples of analysis and solutions to programming problems abound on the web.</li>
+<li>Cutting edge techniques are immediately implemented in packages (long before they are incorporated into SAS or SPSS or STATA, for example).</li>
+<li>As a scripting language, it facilitates collaboration, peer review and reproducibility.<br />
+</li>
+<li>The R ecosystem of tools has seen rapid growth in recent years, especially after the development of <a href="www.rstudio.com">RStudio</a>, a free IDE that, among many other useful functions, helps organize R files, projects and packages.</li>
+</ul>
+<p>R has even been profiled in in the <a href="http://www.nytimes.com/2009/01/07/technology/business-computing/07program.html?pagewanted=all&amp;_r=0">New York Times</a>!</p>
+</div>
+<div id="example" class="section level2">
+<h2><span class="header-section-number">1.3</span> Example</h2>
+<p>Regression models are easy to fit and extremely powerful, <em>yet they can be confusing to use and interpret</em>.</p>
+<p>Consider the following dataset, <code>mtcars</code>, which lists data on various (older) makes of cars:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(mtcars)
+<span class="kw">head</span>(mtcars)</code></pre></div>
+<pre><code>##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre>
+<p><code>head()</code> is a function that selects the first 6 rows of a dataset.</p>
+<p>Suppose we wanted to create a model of <code>mpg</code> in an effort to understand the car features that influence fuel efficiency. We could use linear regression, the command for which in R is <code>lm()</code>. For example, the following simple regression models the relationship between the number of cylinders in a car and its miles per gallon:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(<span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>cyl, <span class="dt">data =</span> mtcars))</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = mpg ~ cyl, data = mtcars)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -4.9814 -2.1185  0.2217  1.0717  7.5186 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  37.8846     2.0738   18.27  &lt; 2e-16 ***
+## cyl          -2.8758     0.3224   -8.92 6.11e-10 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.206 on 30 degrees of freedom
+## Multiple R-squared:  0.7262, Adjusted R-squared:  0.7171 
+## F-statistic: 79.56 on 1 and 30 DF,  p-value: 6.113e-10</code></pre>
+<p>Regression allows us to explore more complicated relationships as well. The following multivariable linear regression models miles per gallon as a function of the car’s number of cylinders, weight and type of carburetor.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(<span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>cyl <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>carb, <span class="dt">data =</span> mtcars))</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = mpg ~ cyl + wt + carb, data = mtcars)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -4.6692 -1.5668 -0.4254  1.2567  5.7404 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  39.6021     1.6823  23.541  &lt; 2e-16 ***
+## cyl          -1.2898     0.4326  -2.981 0.005880 ** 
+## wt           -3.1595     0.7423  -4.256 0.000211 ***
+## carb         -0.4858     0.3295  -1.474 0.151536    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.517 on 28 degrees of freedom
+## Multiple R-squared:  0.8425, Adjusted R-squared:  0.8256 
+## F-statistic: 49.91 on 3 and 28 DF,  p-value: 2.322e-11</code></pre>
+</div>
+<div id="questions" class="section level2">
+<h2><span class="header-section-number">1.4</span> Questions</h2>
+<ul>
+<li>What do these coefficients mean exactly?</li>
+<li>What does the rest of the complicated-looking output mean? Standard errors, t-values, p-values, <span class="math inline">\(R^2\)</span>, degrees of freedom, residuals, etc.?</li>
+<li>How would we translate the coefficients into meaningful quantities for a client with no background in statistics?</li>
+<li>Is this a good model? (And what do we mean by “good model”?)</li>
+<li>If we wanted to make it better, which variables should be added or removed?</li>
+<li>How would we know if adding or removing variables improved the model fit?</li>
+<li>Should any of these variables be transformed or should any outlying observations be removed from the dataset?</li>
+<li>Why does the coefficient for <code>cyl</code> differ between the two models? Which one should we trust?</li>
+<li>Does this model violate any of the mathematical assumptions of linear regression?</li>
+</ul>
+<p><strong>Bottom line: Using modern statistical software to fit models is easy, but understanding, validating, improving and communicating your results can be a challenge.</strong></p>
+<p>This course will equip you for that challenge.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+},
+"search": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
