@@ -1,3 +1,3 @@
 # IS-6489-Course-Notes
 
-These are the course notes for IS 6489, *Statistics and Predictive Analytics*, offered through the Information Systems (IS) department in the University of Utah's David Eccles School of Business.  See web book:  See web book: https://bookdown.org/jefftemplewebb/IS-6489/.
+These are the course notes for IS 6489, *Statistics and Predictive Analytics*, offered through the Information Systems (IS) department in the University of Utah's David Eccles School of Business. https://bookdown.org/jefftemplewebb/IS-6489/.
